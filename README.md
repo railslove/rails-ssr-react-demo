@@ -1,6 +1,6 @@
 # Demo of Rails with server-side rendered React
 
-_Currently work in progress. See [Issues](/issues)._
+_Currently work in progress. See [Issues](https://github.com/railslove/rails-ssr-react-demo/issues)._
 
 ## Setup
 
