@@ -17,4 +17,4 @@ $ rails s
 
 ---
 
-<p align="center">with 💚 from [Railslove](http://railslove.com)</p>
+<p align="center">with 💚 from <a href="https://railslove.com">Railslove</a></p>
