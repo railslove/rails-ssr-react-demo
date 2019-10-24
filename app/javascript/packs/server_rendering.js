@@ -16,15 +16,20 @@ ReactRailsUJS.getConstructor = className => {
 
 ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
   const sheet = new ServerStyleSheet()
+  const outputs = {}
 
-  const parts = {}
-
+  // Render react component. We need not only the html of the component, but
+  // also styles from styled-components (and in the future more parts) which
+  // should be positioned outside of the components in the html document (e.g.)
+  // inside <head>.
+  // Those parts get stringified as JSON, and the server parses this JSON and
+  // places the parts in the correct positions.
   try {
     var componentClass = this.getConstructor(componentName)
     var element = React.createElement(componentClass, props)
 
-    parts.html = ReactDOMServer.renderToString(sheet.collectStyles(element))
-    parts.styles = sheet.getStyleTags()
+    outputs.html = ReactDOMServer.renderToString(sheet.collectStyles(element))
+    outputs.styles = sheet.getStyleTags()
   } catch (error) {
     sheet.seal() // seal must be called to prevent memory leaks
     throw error
@@ -32,5 +37,5 @@ ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
     sheet.seal()  // seal must be called to prevent memory leaks
   }
 
-  return JSON.stringify(parts)
+  return JSON.stringify(outputs)
 }
