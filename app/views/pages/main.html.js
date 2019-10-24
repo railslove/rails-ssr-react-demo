@@ -1,8 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Greeting from '@/components/Greeting'
+
 const HelloWorld = ({ greeting }) => {
-  return <div>Hello {greeting}!</div>
+  return (
+    <div>
+      <Greeting name={greeting} />
+    </div>
+  )
 }
 
 HelloWorld.propTypes = {
