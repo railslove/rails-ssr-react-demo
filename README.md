@@ -1,6 +1,6 @@
 # Demo of Rails with server-side rendered React
 
-Use React components as rails views with [react-rails](https://github.com/reactjs/react-rails) and webpacker.
+Demo project to use React components as Rails views with [react-rails](https://github.com/reactjs/react-rails) and webpacker.
 
 ## Supports
 
