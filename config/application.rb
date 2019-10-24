@@ -16,6 +16,7 @@ module RailsSsrReactDemo
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.react.camelize_props = true
     config.react.server_renderer_directories = [
       "/app/assets/javascripts",
       "/app/javascript/",
