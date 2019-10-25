@@ -39,7 +39,6 @@ ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
     rendered += '\n'
     rendered += sheet.getStyleTags()
   } catch (error) {
-    Helmet.renderStatic()
     sheet.seal()
     rendered = `<pre>${error.toString()}</pre>`
   }
