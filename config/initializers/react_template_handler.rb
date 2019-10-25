@@ -1,17 +1,13 @@
-class ReactTemplateHandler
-  include React::Rails::ViewHelper
-
-  def call(view, _source)
-    # TODO: When an error is raised, the "real" error only will be displayed the
-    # first time. Reloading the error page will show a non-helpful error
-    <<-RUBY
-      react_component("#{view.virtual_path}", local_assigns, { prerender: true })
-    RUBY
-  end
+react_template_handler = lambda do |view, _source|
+  # TODO: When an error is raised, the "real" error only will be displayed the
+  # first time. Reloading the error page will show a non-helpful error
+  <<-RUBY
+    react_component("#{view.virtual_path}", local_assigns, { prerender: true })
+  RUBY
 end
 
-ActionView::Template.register_template_handler(:js, ReactTemplateHandler.new)
-ActionView::Template.register_template_handler(:jsx, ReactTemplateHandler.new)
+ActionView::Template.register_template_handler(:js, react_template_handler)
+ActionView::Template.register_template_handler(:jsx, react_template_handler)
 
 module React
   module Rails
