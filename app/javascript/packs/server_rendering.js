@@ -16,6 +16,7 @@ ReactRailsUJS.getConstructor = className => {
 }
 
 ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
+  const SPLIT_HEAD_MARKER = '<!--SSR_HEAD_START-->'
   const sheet = new ServerStyleSheet()
   let rendered = ''
 
@@ -34,7 +35,7 @@ ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
     )
 
     rendered += ReactDOMServer.renderToString(sheet.collectStyles(app))
-    rendered += '<!--SSR_HEAD_START-->'
+    rendered += SPLIT_HEAD_MARKER
     rendered += helmetToString(helmetContext.helmet)
     rendered += '\n'
     rendered += sheet.getStyleTags()
