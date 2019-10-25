@@ -1,3 +1,3 @@
 class ApplicationController < ActionController::Base
-  attr_accessor :ssr_styles
+  attr_accessor :ssr_head
 end

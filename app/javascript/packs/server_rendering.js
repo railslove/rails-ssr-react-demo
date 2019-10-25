@@ -1,41 +1,58 @@
 // By default, this pack is loaded for server-side rendering.
 // It must expose react_ujs as `ReactRailsUJS` and prepare a require context.
-var componentRequireContext = require.context('../../views', true, /\.js$/)
-var ReactRailsUJS = require('react_ujs')
-var React = require("react")
-var ReactDOM = require("react-dom")
-var ReactDOMServer = require("react-dom/server")
+
+import React from 'react'
+import ReactDOM from 'react-dom'
+import ReactDOMServer from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
+import { HelmetProvider } from 'react-helmet-async'
+
+const ReactRailsUJS = require('react_ujs')
+const componentRequireContext = require.context('../../views', true, /\.js$/)
 
 ReactRailsUJS.getConstructor = className => {
   const componentModule = componentRequireContext(`./${className}.html.js`)
-  return componentModule.__esModule
-    ? componentModule.default
-    : componentModule
+  return componentModule.__esModule ? componentModule.default : componentModule
 }
 
 ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
   const sheet = new ServerStyleSheet()
-  const outputs = {}
+  let rendered = ''
 
   // Render react component. We need not only the html of the component, but
-  // also styles from styled-components (and in the future more parts) which
-  // should be positioned outside of the components in the html document (e.g.)
-  // inside <head>.
+  // also styles from css-in-js libraries and react-helmet, which should be
+  // positioned outside of the components in the html document (inside <head>).
   // Those parts get stringified as JSON, and the server parses this JSON and
   // places the parts in the correct positions.
   try {
-    var componentClass = this.getConstructor(componentName)
-    var element = React.createElement(componentClass, props)
+    const Component = this.getConstructor(componentName)
+    const helmetContext = {}
+    const app = (
+      <HelmetProvider context={helmetContext}>
+        <Component {...props} />
+      </HelmetProvider>
+    )
 
-    outputs.html = ReactDOMServer.renderToString(sheet.collectStyles(element))
-    outputs.styles = sheet.getStyleTags()
+    rendered += ReactDOMServer.renderToString(sheet.collectStyles(app))
+    rendered += '<!--SSR_HEAD_START-->'
+    rendered += helmetToString(helmetContext.helmet)
+    rendered += '\n'
+    rendered += sheet.getStyleTags()
   } catch (error) {
-    sheet.seal() // seal must be called to prevent memory leaks
-    throw error
-  } finally {
-    sheet.seal()  // seal must be called to prevent memory leaks
+    Helmet.renderStatic()
+    sheet.seal()
+    rendered = `<pre>${error.toString()}</pre>`
   }
 
-  return JSON.stringify(outputs)
+  return rendered
+}
+
+function helmetToString(helmet) {
+  return [
+    helmet.title.toString(),
+    helmet.meta.toString(),
+    helmet.link.toString()
+  ]
+    .filter(Boolean)
+    .join('\n')
 }
