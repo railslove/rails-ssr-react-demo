@@ -10,7 +10,7 @@ module ReactViews
     end
 
     def self.render(view_name, props)
-      @@execjs_context.eval("prerender('#{view_name}', #{props.to_json})")
+      @@execjs_context.eval("renderReactViews('#{view_name}', #{props.to_json})")
     end
 
     private

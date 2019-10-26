@@ -6,7 +6,7 @@ import { HelmetProvider } from 'react-helmet-async'
 
 const viewRequireContext = require.context('../../views', true, /\.js$/)
 
-global.prerender = (viewName, props) => {
+global.renderReactViews = (viewName, props) => {
   const viewModule = viewRequireContext(`./${viewName}.html.js`)
   const Component = viewModule.__esModule ? viewModule.default : viewModule
 
