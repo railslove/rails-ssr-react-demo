@@ -1,0 +1,5 @@
+require_relative 'react_views/server_renderer'
+require_relative 'react_views/server_side_renderable'
+require_relative 'react_views/template_handler'
+require_relative 'react_views/view_helper'
+require_relative 'react_views/railtie'

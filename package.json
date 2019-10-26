@@ -14,7 +14,6 @@
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-helmet-async": "1.0.4",
-    "react_ujs": "2.6.0",
     "styled-components": "4.4.0",
     "turbolinks": "5.2.0"
   },

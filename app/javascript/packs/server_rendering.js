@@ -1,32 +1,19 @@
-// By default, this pack is loaded for server-side rendering.
-// It must expose react_ujs as `ReactRailsUJS` and prepare a require context.
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactDOMServer from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 import { HelmetProvider } from 'react-helmet-async'
 
-const ReactRailsUJS = require('react_ujs')
-const componentRequireContext = require.context('../../views', true, /\.js$/)
+const viewRequireContext = require.context('../../views', true, /\.js$/)
 
-ReactRailsUJS.getConstructor = className => {
-  const componentModule = componentRequireContext(`./${className}.html.js`)
-  return componentModule.__esModule ? componentModule.default : componentModule
-}
+global.prerender = (viewName, props) => {
+  const viewModule = viewRequireContext(`./${viewName}.html.js`)
+  const Component = viewModule.__esModule ? viewModule.default : viewModule
 
-ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
-  const SPLIT_HEAD_MARKER = '<!--SSR_HEAD_START-->'
   const sheet = new ServerStyleSheet()
-  let rendered = ''
+  let view = '', head = ''
 
-  // Render react component. We need not only the html of the component, but
-  // also styles from css-in-js libraries and react-helmet, which should be
-  // positioned outside of the components in the html document (inside <head>).
-  // Those parts get stringified as JSON, and the server parses this JSON and
-  // places the parts in the correct positions.
   try {
-    const Component = this.getConstructor(componentName)
     const helmetContext = {}
     const app = (
       <HelmetProvider context={helmetContext}>
@@ -34,17 +21,17 @@ ReactRailsUJS.serverRender = function(renderFunction, componentName, props) {
       </HelmetProvider>
     )
 
-    rendered += ReactDOMServer.renderToString(sheet.collectStyles(app))
-    rendered += SPLIT_HEAD_MARKER
-    rendered += helmetToString(helmetContext.helmet)
-    rendered += '\n'
-    rendered += sheet.getStyleTags()
+    view = ReactDOMServer.renderToString(sheet.collectStyles(app))
+
+    head += helmetToString(helmetContext.helmet)
+    head += '\n'
+    head += sheet.getStyleTags()
   } catch (error) {
     sheet.seal()
-    rendered = `<pre>${error.toString()}</pre>`
+    view = `<pre>${error.toString()}</pre>`
   }
 
-  return rendered
+  return { view, head }
 }
 
 function helmetToString(helmet) {
