@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Greeting = ({ name }) => {
-  return <Title onClick={() => alert('hi!')}>Hellooo {name}!</Title>
+  return <Title>Hellooo {name}!</Title>
 }
 
 Greeting.propTypes = {
