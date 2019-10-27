@@ -19,7 +19,7 @@ module ReactViews
       config.to_prepare { react_views_reloader.execute_if_updated }
     end
 
-    initializer 'react_views.setup_view_helpers', after: :load_config_initializers, group: :all do |app|
+    initializer 'react_views.add_view_controller', after: :load_config_initializers, group: :all do |app|
       ::ReactViews::ServerRenderer.reset
 
       ActiveSupport.on_load(:action_controller) do
