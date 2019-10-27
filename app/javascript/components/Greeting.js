@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Greeting = ({ name }) => {
-  return <Title>Hellooo {name}!</Title>
+  return <Title>Hello {name}!</Title>
 }
 
 Greeting.propTypes = {
