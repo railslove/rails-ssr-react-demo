@@ -6,7 +6,7 @@ module ReactViews
     CLIENT_REQUIRE = %r{__webpack_require__\(.*webpack-dev-server\/client\/index\.js.*\n}
 
     def self.reset
-      @@execjs_context = ExecJS.compile(get_file('server_rendering.js'))
+      @@execjs_context = ExecJS.compile(get_file('react_views_server.js'))
     end
 
     def self.render(view_name, props)
