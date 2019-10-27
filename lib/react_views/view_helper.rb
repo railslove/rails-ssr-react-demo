@@ -3,7 +3,7 @@ module ReactViews
     def render_react_view(view_name, plain_props)
       props = plain_props.deep_transform_keys { |key| key.to_s.camelcase(:lower) }
       output = ::ReactViews::ServerRenderer.render(view_name, props)
-      controller.__react_views_ssr_head = output["head"]&.html_safe
+      controller.__react_views_head = output["head"]
       controller.__react_views_props = props
       controller.__react_views_view_name = view_name
 
@@ -13,7 +13,7 @@ module ReactViews
     end
 
     def ssr_head
-      controller.__react_views_ssr_head
+      controller.__react_views_head&.html_safe
     end
 
     def ssr_data_tag
