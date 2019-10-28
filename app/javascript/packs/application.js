@@ -6,6 +6,6 @@ require('@rails/activestorage').start()
 require('channels')
 
 hydrateViews({
-  viewResolver: viewName => import(`../../views/${viewName}.html.js`),
+  asyncViewResolver: viewName => import(`../../views/${viewName}.html.js`),
   App
 })
