@@ -1,3 +1,4 @@
+require_relative 'react_views/monkeypatch_mini_racer'
 require_relative 'react_views/server_renderer'
 require_relative 'react_views/server_side_renderable'
 require_relative 'react_views/template_handler'
