@@ -35,9 +35,9 @@ module MiniRacer
 
         line = line[0...-1] # remove last ")"
         line = line.sub!("at ", "")
-        caller_name, file_location = line.split(" (/webpack:/", 2)
+        caller_name, filename_with_linenumber = line.split(" (/webpack:/", 2)
 
-        "#{file_location}:in `#{caller_name}`"
+        "#{filename_with_linenumber}:in `#{caller_name}`"
       end
     end
   end
@@ -49,12 +49,12 @@ module MiniRacer
         # from: "SyntaxError: /file/path.js: some message (7:1)"
         # to:   "at ? (/webpack:/file/path.js:7:1)"
         # ... which then gets parsed by MiniRacer::RuntimeError
-        location, error_message = message.split("\n", 2)[0].sub!("SyntaxError: ", "").split(":", 2)
-        line_number = error_message.match(/\((.*)\)$/).captures.first
+        filename, error_message = message.split("\n", 2)[0].sub!("SyntaxError: ", "").split(":", 2)
+        linenumber = error_message.match(/\((.*)\)$/).captures.first
 
         message = [
           "SyntaxError: #{error_message}",
-          "at ? (/webpack:/#{location}:#{line_number})"
+          "at ? (/webpack:/#{filename}:#{linenumber})"
         ].join("\n")
       end
 
