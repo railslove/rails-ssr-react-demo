@@ -7,9 +7,9 @@ export async function hydrateViews({ asyncViewResolver, App }) {
     const $root = document.getElementById('__react-views')
     const data = JSON.parse($data.innerHTML)
 
-    const pageModule = await asyncViewResolver(data.viewName)
-    const Page = pageModule.__esModule ? pageModule.default : pageModule
+    const viewModule = await asyncViewResolver(data.viewName)
+    const View = viewModule.__esModule ? viewModule.default : viewModule
 
-    ReactDOM.hydrate(<App Page={Page} pageProps={data.props} />, $root)
+    ReactDOM.hydrate(<App View={View} viewProps={data.viewProps} />, $root)
   })
 }

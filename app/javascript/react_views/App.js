@@ -1,29 +1,30 @@
 import React from 'react'
+import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 import { HelmetProvider } from 'react-helmet-async'
 
-function App({ Page, pageProps, ssr }) {
+function App({ View, viewProps, ssr }) {
   const helmetProviderProps = {}
 
   if (ssr) {
-    pageProps.helmetContext = {}
-    helmetProviderProps.context = pageProps.helmetContext
+    viewProps.helmetContext = {}
+    helmetProviderProps.context = viewProps.helmetContext
   }
 
   return (
     <HelmetProvider {...helmetProviderProps}>
-      <Page {...pageProps} />
+      <View {...viewProps} />
     </HelmetProvider>
   )
 }
 
-App.prerender = ({ render, ctx }) => {
+App.prerender = ({ app, ctx }) => {
   const sheet = new ServerStyleSheet()
   let head = ''
 
   try {
-    const body = render(app => sheet.collectStyles(app))
-    head += helmetToString(ctx.pageProps.helmetContext.helmet)
+    const body = renderToString(sheet.collectStyles(app))
+    head += helmetToString(ctx.viewProps.helmetContext.helmet)
     head += sheet.getStyleTags()
     return { body, head }
   } finally {

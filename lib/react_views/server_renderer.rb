@@ -24,7 +24,7 @@ module ReactViews
       js_args = {
         ctx: {
           viewName: view_name,
-          props: props
+          viewProps: props
         }
       }
 

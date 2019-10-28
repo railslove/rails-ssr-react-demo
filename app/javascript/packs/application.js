@@ -1,4 +1,4 @@
-import App from '../react_views/_app'
+import App from '../react_views/App'
 import { hydrateViews } from '../lib/react-views'
 
 require('turbolinks').start()

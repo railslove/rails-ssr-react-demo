@@ -1,4 +1,4 @@
-import App from '../react_views/_app'
+import App from '../react_views/App'
 import { prerenderViews } from '../lib/react-views/server'
 
 prerenderViews({

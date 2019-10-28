@@ -4,7 +4,7 @@ module ReactViews
       props = plain_props.deep_transform_keys { |key| key.to_s.camelcase(:lower) }
       output = ::ReactViews::ServerRenderer.render(view_name, props)
       controller.__react_views_head = output["head"]
-      controller.__react_views_props = props
+      controller.__react_views_view_props = props
       controller.__react_views_view_name = view_name
 
       content_tag(:div, id: '__react-views') do
@@ -19,8 +19,8 @@ module ReactViews
     def ssr_data_tag
       content_tag(:script, id: '__react-views-data', type: 'application/json') do
         {
-          props: controller.__react_views_props,
-          viewName: controller.__react_views_view_name
+          viewName: controller.__react_views_view_name,
+          viewProps: controller.__react_views_view_props
         }.to_json.html_safe
       end
     end

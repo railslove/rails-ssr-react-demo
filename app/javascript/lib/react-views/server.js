@@ -12,18 +12,16 @@ require('source-map-support').install({
 
 export function prerenderViews({ viewResolver, App }) {
   global.__react_views_exec = ({ ctx }) => {
-    const { viewName, props } = ctx
+    const { viewName, viewProps } = ctx
 
-    const pageModule = viewResolver(`./${viewName}.html.js`)
-    const Page = pageModule.__esModule ? pageModule.default : pageModule
+    const viewModule = viewResolver(`./${viewName}.html.js`)
+    const View = viewModule.__esModule ? viewModule.default : viewModule
 
-    const app = <App Page={Page} pageProps={props} ssr />
+    const app = <App View={View} viewProps={viewProps} ssr />
 
     const { body, head } = App.prerender({
-      render: (cb = app => app) => {
-        return ReactDOMServer.renderToString(cb(app))
-      },
-      ctx: { pageProps: props, Page }
+      app,
+      ctx: { viewProps, viewName, View }
     })
 
     return { body, head }
