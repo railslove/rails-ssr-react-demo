@@ -15,7 +15,6 @@ environment.config.merge({
 
   // necessary for source-map-support module
   node: {
-    fs: 'empty',
     module: 'empty'
   }
 })
