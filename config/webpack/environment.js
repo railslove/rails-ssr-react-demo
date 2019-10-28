@@ -11,6 +11,12 @@ environment.config.merge({
     alias: {
       '@': path.join(__dirname, '../..', 'app/javascript')
     }
+  },
+
+  // necessary for source-map-support module
+  node: {
+    fs: 'empty',
+    module: 'empty'
   }
 })
 

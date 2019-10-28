@@ -1,11 +1,18 @@
-/* global ReactViews */
-
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
+require('source-map-support').install({
+  retrieveSourceMap: filename => {
+    return {
+      url: filename,
+      map: readSourceMap(filename) // attached in ruby to rails_views
+    }
+  }
+})
+
 export function prerenderViews({ viewResolver, App }) {
-  ReactViews.sendOutput(() => {
-    const { viewName, props } = ReactViews.ctx
+  global.__react_views_exec = ({ ctx }) => {
+    const { viewName, props } = ctx
 
     const pageModule = viewResolver(`./${viewName}.html.js`)
     const Page = pageModule.__esModule ? pageModule.default : pageModule
@@ -20,5 +27,5 @@ export function prerenderViews({ viewResolver, App }) {
     })
 
     return { body, head }
-  })
+  }
 }

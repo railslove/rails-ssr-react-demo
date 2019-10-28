@@ -16,7 +16,6 @@ const Title = styled.div`
   background-color: papayawhip;
   font-family: sans-serif;
   padding: 50px;
-`;
-
+`
 
 export default Greeting
