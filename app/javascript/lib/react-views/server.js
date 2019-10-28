@@ -5,7 +5,7 @@ require('source-map-support').install({
   retrieveSourceMap: filename => {
     return {
       url: filename,
-      map: readSourceMap(filename) // attached in ruby to rails_views
+      map: readSourceMap(filename) // attached in ruby to ReactViews::ServerRenderer
     }
   }
 })
