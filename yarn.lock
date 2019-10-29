@@ -5880,13 +5880,6 @@ react@16.11.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
 
-react_ujs@2.6.0, react_ujs@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/react_ujs/-/react_ujs-2.6.0.tgz#98c53cc40b2b3b8558300e19394638d45d37a177"
-  integrity sha512-vNPVjT720+7998ip1SXPPPetQGAgYd1PGDTZTwNC2Qf9/w3O8+bR04mjvO9BTlORab777V9QpeULvgRC22jDrw==
-  dependencies:
-    react_ujs "^2.6.0"
-
 read-cache@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/read-cache/-/read-cache-1.0.0.tgz#e664ef31161166c9751cdbe8dbcf86b5fb58f774"
@@ -6449,7 +6442,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@~0.5.12:
+source-map-support@0.5.13, source-map-support@~0.5.12:
   version "0.5.13"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
   integrity sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==

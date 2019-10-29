@@ -6,6 +6,8 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require_relative '../lib/react_views'
+
 module RailsSsrReactDemo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -15,12 +17,5 @@ module RailsSsrReactDemo
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-
-    config.react.camelize_props = true
-    config.react.server_renderer_directories = [
-      "/app/assets/javascripts",
-      "/app/javascript/",
-      "/app/views"
-    ]
   end
 end
