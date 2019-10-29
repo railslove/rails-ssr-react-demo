@@ -11,13 +11,15 @@ module ReactViews
       @@context = MiniRacer::Context.new
       @@context.eval(get_webpack_file('react_views_server.js'), filename: 'react_views_server.js')
 
-      @@context.attach('console.log', proc { |*args| log(:debug, args) })
-      @@context.attach('console.debug', proc { |*args| log(:debug, args) })
-      @@context.attach('console.error', proc { |*args| log(:error, args) })
-      @@context.attach('console.warn', proc { |*args| log(:warn, args) })
-      @@context.attach('console.info', proc { |*args| log(:info, args) })
-
+      # Support for sourcemap inside mini_racer. `readSourceMap` is called by the react_views server js module.
+      # See https://github.com/discourse/mini_racer/tree/a3cfe31241c25ba92231171f3245ec7ec4ef9a58/examples/source-map-support
       @@context.attach('readSourceMap', proc { |filename| get_webpack_file("#{filename}.map") } )
+
+      # Maps js' console.* to the Rails logger. logs which are called while prerendering will appear in the rails logs.
+      @@context.attach('console.log', proc { |*args| Rails.logger.debug args.join(' ') })
+      @@context.attach('console.error', proc { |*args| Rails.logger.error args.join(' ') })
+      @@context.attach('console.warn', proc { |*args| Rails.logger.warn args.join(' ') })
+      @@context.attach('console.info', proc { |*args| Rails.logger.info args.join(' ') })
     end
 
     def self.render(view_name, props)
